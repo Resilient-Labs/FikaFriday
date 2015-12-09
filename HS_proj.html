@@ -10,12 +10,20 @@
 				background-color: rgb(211, 211, 211);
 			}
 
+			button {
+				float : right;
+				margin: 0, 0, 10px, 10px;
+				position: fixed;
+			}
+
 		</style>
 	</head>
 
 	<body>
 		
 		<div class = 'square' id = 'add_user'> Add </div>
+
+		<button onclick = "pairM()"> Make Pairs </button>
 
 		<div id = "splash">
 		</div>
@@ -39,33 +47,63 @@
 				{
 					 'first': 'Lee-Bron',
 					 'last': 'James',
-					 'email': 'LB.Cavs@hotmailcom',
-					 'slack': 'Cavs SF',
+					 // 'email': 'LB.Cavs@hotmailcom',
+					 // 'slack': 'Cavs SF',
 	  			},
 	  			{
 				 	'first': 'Kevin',
 				 	'last': 'Durant',
-				 	'email': 'KD.Thunder@gmailcom',
-				 	'slack': 'OKC SF',
+				 	// 'email': 'KD.Thunder@gmailcom',
+				 	// 'slack': 'OKC SF',
 			 	},
 			 	{
 				 	'first': 'Ka-Why',
 				 	'last': 'Leonard',
-				 	'email': 'KL.Spurs@gmailcom',
-				 	'slack': 'Spurs SF',
+				 	// 'email': 'KL.Spurs@gmailcom',
+				 	// 'slack': 'Spurs SF',
 			 	},
 			 	{
 				 	'first': 'Melo',
 				 	'last': 'Anthony',
-				 	'email': 'Melo.Knicks@gmailcom',
-				 	'slack': 'Knicks SF',
+				 	// 'email': 'Melo.Knicks@gmailcom',
+				 	// 'slack': 'Knicks SF',
 			 	},
 			 	{
 				 	'first': 'Pearl',
 				 	'last': 'Georgie',
-				 	'email': 'PG.13@gmailcom',
-				 	'slack': 'PG13 SF',
+				 	// 'email': 'PG.13@gmailcom',
+				 	// 'slack': 'PG13 SF',
 			 	},
+			 	{
+					 'first': 'Gorden',
+					 'last': 'Hay',
+					 // 'email': '',
+					 // 'slack': '',
+	  			},
+	  			{
+					 'first': 'Ruby',
+					 'last': 'Lay',
+					 // 'email': '',
+					 // 'slack': '',
+	  			},
+	  			{
+					 'first': 'Ty',
+					 'last': 'Evans',
+					 // 'email': '',
+					 // 'slack': '',
+	  			},
+	  			{
+					 'first': 'Mike',
+					 'last': 'Jump',
+					 // 'email': '',
+					 // 'slack': '',
+	  			},
+	  			{
+					 'first': 'Jerry',
+					 'last': 'West',
+					 // 'email': '',
+					 // 'slack': '',
+	  			},
 				];
 
 			var drawE_square = function(object) {
@@ -102,21 +140,26 @@
 
 				};
 
-				for (i = 0; i < employee.length; i++) {
-					drawE_square(employee[i]);
-				}
+				// for (i = 0; i < employee.length; i++) {
+				// 	drawE_square(employee[i]);
+				// }
 
 				//Pairing Functionality
 
-				var pairM = function (){
-					var p1 = employee[Math.floor(Math.random()*employee.length)];
-					var p2 = employee[Math.floor(Math.random()*employee.length)];
 
-					 drawE_square(p1)
-					 drawE_square(p2)
+				var pairM = function (){
+
+					var dummy = employee[Math.floor(Math.random()*employee.length)];
+
+
+					// var p1 = employee[Math.floor(Math.random()*employee.length)];
+					// var p2 = employee[Math.floor(Math.random()*employee.length)];
+
+					//  drawE_square(p1)
+					//  drawE_square(p2)
 				}
 
-				pairM();
+				// pairM();
 
 		</script>
 
