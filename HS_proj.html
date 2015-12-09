@@ -1,0 +1,125 @@
+<html>
+
+	<head>
+
+		<style>
+
+			.square {
+				width: 100px;
+				height: 100px;
+				background-color: rgb(211, 211, 211);
+			}
+
+		</style>
+	</head>
+
+	<body>
+		
+		<div class = 'square' id = 'add_user'> Add </div>
+
+		<div id = "splash">
+		</div>
+
+		<script>
+		
+		//Adding User
+
+		var add_u = document.getElementById("add_user");
+		add_u.addEventListener("click",function (){
+		
+		var new_user =	{first: prompt('Enter First Name'),
+			last: prompt('Enter Last Name'),}
+		
+		employee.push(new_user)
+		drawE_square(new_user)
+
+		});
+
+		var employee = [
+				{
+					 'first': 'Lee-Bron',
+					 'last': 'James',
+					 'email': 'LB.Cavs@hotmailcom',
+					 'slack': 'Cavs SF',
+	  			},
+	  			{
+				 	'first': 'Kevin',
+				 	'last': 'Durant',
+				 	'email': 'KD.Thunder@gmailcom',
+				 	'slack': 'OKC SF',
+			 	},
+			 	{
+				 	'first': 'Ka-Why',
+				 	'last': 'Leonard',
+				 	'email': 'KL.Spurs@gmailcom',
+				 	'slack': 'Spurs SF',
+			 	},
+			 	{
+				 	'first': 'Melo',
+				 	'last': 'Anthony',
+				 	'email': 'Melo.Knicks@gmailcom',
+				 	'slack': 'Knicks SF',
+			 	},
+			 	{
+				 	'first': 'Pearl',
+				 	'last': 'Georgie',
+				 	'email': 'PG.13@gmailcom',
+				 	'slack': 'PG13 SF',
+			 	},
+				];
+
+			var drawE_square = function(object) {
+
+				var square = document.createElement("div");
+				square.className = ("square");
+
+				square.addEventListener("click",function fade(drawE_square) {square.style.opacity = 0.5;});
+
+				var first = document.createElement('p');
+				var second = document.createTextNode(object.first + ' ' + object.last);
+				first.appendChild(second);
+
+				square.appendChild(first);
+
+				//Editing User
+
+				var third = document.createElement('a');
+				var fourth = document.createTextNode('Edit');
+				third.appendChild(fourth);
+
+				square.appendChild(third);
+
+				third.addEventListener("click",function (event){
+					object.first = prompt('Enter First Name');
+					object.last = prompt('Enter Last Name');
+					event.stopPropagation();
+					second = document.createTextNode(object.first + ' ' + object.last);
+					first.appendChild(second);
+				});
+
+				var element = document.getElementById("splash");
+				element.appendChild(square);
+
+				};
+
+				for (i = 0; i < employee.length; i++) {
+					drawE_square(employee[i]);
+				}
+
+				//Pairing Functionality
+
+				var pairM = function (){
+					var p1 = employee[Math.floor(Math.random()*employee.length)];
+					var p2 = employee[Math.floor(Math.random()*employee.length)];
+
+					 drawE_square(p1)
+					 drawE_square(p2)
+				}
+
+				pairM();
+
+		</script>
+
+	</body>
+
+</html>
