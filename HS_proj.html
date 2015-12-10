@@ -106,6 +106,10 @@
 	  			},
 				];
 
+				var pairs = [
+
+				];
+
 			var drawE_square = function(object) {
 
 				var square = document.createElement("div");
@@ -149,17 +153,27 @@
 
 				var pairM = function (){
 
-					var dummy = employee[Math.floor(Math.random()*employee.length)];
+					var dummy = employee
 
+					var five = dummy.length
 
-					// var p1 = employee[Math.floor(Math.random()*employee.length)];
-					// var p2 = employee[Math.floor(Math.random()*employee.length)];
+					for (i = 0; i < five/2; i++){
+						var random = Math.floor(Math.random()*(dummy.length - 2))+1;
+						console.log("random is " + random);
 
-					//  drawE_square(p1)
-					//  drawE_square(p2)
+						var pairS = [
+										dummy[0],
+										dummy[random]
+									]
+
+							pairs.push(pairS);
+
+							dummy.splice(random,1)
+							dummy.splice(0,1)
+					}
+
+					console.log(pairs);
 				}
-
-				// pairM();
 
 		</script>
 
