@@ -144,9 +144,10 @@
 
 				};
 
-				// for (i = 0; i < employee.length; i++) {
-				// 	drawE_square(employee[i]);
-				// }
+
+				// 	for (i = 0; i < employee.length; i++) {
+				// 	drawE_square(employee[i]); 
+				// };
 
 				//Pairing Functionality
 
@@ -159,20 +160,19 @@
 
 					for (i = 0; i < five/2; i++){
 						var random = Math.floor(Math.random()*(dummy.length - 2))+1;
-						console.log("random is " + random);
 
 						var pairS = [
 										dummy[0],
 										dummy[random]
 									]
 
-							pairs.push(pairS);
 
 							dummy.splice(random,1)
 							dummy.splice(0,1)
-					}
+							
+							pairs.push(pairS);
+					};
 
-					console.log(pairs);
 				}
 
 		</script>
