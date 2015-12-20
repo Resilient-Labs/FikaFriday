@@ -1,28 +1,55 @@
 <html>
 	<head>
 		<style>
+			html, html *{
+				font-family:"Helvetica", sans-serif;
+			}
+			#container{
+				width: 80%;
+				max-width:618px;
+				margin: 0 auto;
+				text-align: center;
+				padding-top: 150px;
+			}
 			.square {
-				width: 100px;
-				height: 100px;
+				width: 120px;
+				height: 80px;
+				padding:10px;
 				background-color: rgb(211, 211, 211);
+				float:left;
+				margin-right:10px;
+				margin-top:10px;
+				cursor: pointer;
+
+				transition:.3s all;
+				-webkit-transition:.3s all;
+			}
+			.square:hover{
+				background-color: #E4E3E3;
 			}
 			button {
-				float : right;
-				margin: 0, 0, 10px, 10px;
+				text-align: center;
+				margin: 0 auto;
 				position: fixed;
 			}
+
 
 		</style>
 	</head>
 
 	<body>
-		
+<!-- 
+		HERE'S SOME NEW STUFF!!
+ -->
+		<div id="container">
+			<h1>Fika Friday</h1>
+			<div class = 'square' id = 'add_user'> Add </div>
 
-		<div class = 'square' id = 'add_user'> Add </div>
+			<button onclick = "pairM()"> Make Pairs </button>
 
-		<button onclick = "pairM()"> Make Pairs </button>
+			<div id = "splash">
 
-		<div id = "splash">
+			</div>
 		</div>
 
 		<script>
@@ -106,7 +133,7 @@
 				var pairs = [
 
 				];
-
+			
 			var drawE_square = function(object) {
 
 				var square = document.createElement("div");
@@ -172,6 +199,10 @@
 					};
 
 				}
+			//Draws all the squares
+			for (i = 0; i<employee.length; i++){
+				drawE_square(employee[i]);
+			}
 
 		</script>
 
