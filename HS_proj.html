@@ -130,7 +130,7 @@
 	  			},
 				];
 
-				var pairs = [
+				var pairX = [
 
 				];
 			
@@ -139,14 +139,13 @@
 				var square = document.createElement("div");
 				square.className = ("square");
 
-				square.addEventListener("click",function fade(drawE_square) {square.style.opacity = 0.5;});
+				square.addEventListener("click",function fade(drawE_square) {square.style.opacity = 0.5; console.log(square.style.opacity)});
 
 				var first = document.createElement('p');
 				var second = document.createTextNode(object.first + ' ' + object.last);
 				first.appendChild(second);
 
 				square.appendChild(first);
-
 				//Editing User
 
 				var third = document.createElement('a');
@@ -179,11 +178,14 @@
 
 				var pairM = function (){
 
-					var dummy = employee
+					for (i = 0; i < employee.length; i++){
+						var name = employee[i].first + '' + employee[i].last
+							if name ===
+					}
 
-					var five = dummy.length
+					var group = dummy.length
 
-					for (i = 0; i < five/2; i++){
+					for (i = 0; i < group/2; i++){
 						var random = Math.floor(Math.random()*(dummy.length - 2))+1;
 
 						var pairS = [
@@ -195,7 +197,7 @@
 							dummy.splice(random,1)
 							dummy.splice(0,1)
 							
-							pairs.push(pairS);
+							pairX.push(pairS);
 					};
 
 				}
