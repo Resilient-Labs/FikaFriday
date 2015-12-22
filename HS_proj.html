@@ -20,7 +20,7 @@
 				margin-right:10px;
 				margin-top:10px;
 				cursor: pointer;
-
+				opacity:1;
 				transition:.3s all;
 				-webkit-transition:.3s all;
 			}
@@ -71,60 +71,70 @@
 				{
 					 'first': 'Lee-Bron',
 					 'last': 'James',
+					 'selected':true,
 					 // 'email': 'LB.Cavs@hotmailcom',
 					 // 'slack': 'Cavs SF',
 	  			},
 	  			{
 				 	'first': 'Kevin',
 				 	'last': 'Durant',
+				 	'selected':true,
 				 	// 'email': 'KD.Thunder@gmailcom',
 				 	// 'slack': 'OKC SF',
 			 	},
 			 	{
 				 	'first': 'Ka-Why',
-				 	'last': 'Leonard',
+				 	'last': 'Lard',
+				 	'selected':true,
 				 	// 'email': 'KL.Spurs@gmailcom',
 				 	// 'slack': 'Spurs SF',
 			 	},
 			 	{
 				 	'first': 'Melo',
-				 	'last': 'Anthony',
+				 	'last': 'Antt',
+				 	'selected':true,
 				 	// 'email': 'Melo.Knicks@gmailcom',
 				 	// 'slack': 'Knicks SF',
 			 	},
 			 	{
-				 	'first': 'Pearl',
-				 	'last': 'Georgie',
+				 	'first': 'Paul',
+				 	'last': 'George',
+				 	'selected':true,
 				 	// 'email': 'PG.13@gmailcom',
 				 	// 'slack': 'PG13 SF',
 			 	},
 			 	{
 					 'first': 'Gorden',
-					 'last': 'Hay',
+					 'last': 'Hayward',
+					 'selected':true,
 					 // 'email': '',
 					 // 'slack': '',
 	  			},
 	  			{
 					 'first': 'Ruby',
 					 'last': 'Lay',
+					 'selected':true,
 					 // 'email': '',
 					 // 'slack': '',
 	  			},
 	  			{
-					 'first': 'Ty',
+					 'first': 'Tyreck',
 					 'last': 'Evans',
+					 'selected':true,
 					 // 'email': '',
 					 // 'slack': '',
 	  			},
 	  			{
-					 'first': 'Mike',
-					 'last': 'Jump',
+					 'first': 'Michael',
+					 'last': 'Jordan',
 					 // 'email': '',
+					 'selected':true,
 					 // 'slack': '',
 	  			},
 	  			{
 					 'first': 'Jerry',
 					 'last': 'West',
+					 'selected':true,
 					 // 'email': '',
 					 // 'slack': '',
 	  			},
@@ -139,7 +149,31 @@
 				var square = document.createElement("div");
 				square.className = ("square");
 
-				square.addEventListener("click",function fade(drawE_square) {square.style.opacity = 0.5; console.log(square.style.opacity)});
+				square.addEventListener("click",
+					function fade(drawE_square) {
+						for (i = 0; i < employee.length; i++){
+							var name = employee[i].first + " " + employee[i].last
+							if (name === square.children[0].innerHTML){
+								//check to see if the square is faded
+								if (square.style.opacity == 0.5) {
+									square.style.opacity = 1
+									employee[i].selected = true
+									console.log("This Should Be Unfaded")
+								}
+								else {
+									employee[i].selected = false
+									square.style.opacity = 0.5
+									console.log("This square should be Fading")
+									
+								}
+								
+								console.log(employee[i])
+							}
+						
+						}
+						
+					}
+				);
 
 				var first = document.createElement('p');
 				var second = document.createTextNode(object.first + ' ' + object.last);
@@ -151,8 +185,7 @@
 				var third = document.createElement('a');
 				var fourth = document.createTextNode('Edit');
 				third.appendChild(fourth);
-				//Heres some theoretical changes
-				//heres some more
+			
 				square.appendChild(third);
 
 				third.addEventListener("click",function (event){
@@ -168,21 +201,16 @@
 
 				};
 
-
-				// 	for (i = 0; i < employee.length; i++) {
-				// 	drawE_square(employee[i]); 
-				// };
-
 				//Pairing Functionality
 
 
 				var pairM = function (){
-
+					var dummy = []
 					for (i = 0; i < employee.length; i++){
-						var name = employee[i].first + '' + employee[i].last
-							if name ===
+						if (employee[i] == true){
+							dummy.push(employee[i])
+						}
 					}
-
 					var group = dummy.length
 
 					for (i = 0; i < group/2; i++){
