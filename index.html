@@ -4,6 +4,10 @@
 			html, html *{
 				font-family:"Helvetica", sans-serif;
 			}
+            #splash{
+                height:500px;
+                padding: 10px 0;
+            }
 			#container{
 				width: 80%;
 				max-width:618px;
@@ -11,6 +15,11 @@
 				text-align: center;
 				padding-top: 150px;
 			}
+            textarea{
+                width:100%;
+                height:200px;
+                
+            }
 			.square {
 				width: 120px;
 				height: 80px;
@@ -30,7 +39,7 @@
 			button {
 				text-align: center;
 				margin: 0 auto;
-				position: fixed;
+/*				position: relative;*/
 			}
 
 
@@ -43,13 +52,13 @@
  -->
 		<div id="container">
 			<h1>Fika Friday</h1>
-			<div class = 'square' id = 'add_user'> Add </div>
-
-			<button onclick = "pairM()"> Make Pairs </button>
-
+                <h2>This week's prompt</h2>
+                <textarea></textarea>
 			<div id = "splash">
-
+                <h2>Participants</h2>
+                <div class = 'square' id = 'add_user'> Add </div>
 			</div>
+            <button onclick = "pairM()"> Confirm </button>
 		</div>
 
 		<script>
@@ -202,20 +211,16 @@
 				};
 
 				//Pairing Functionality
-
-
 				var pairM = function (){
 					var dummy = []
 					for (i = 0; i < employee.length; i++){
-						if (employee[i] == true){
+						if (employee[i].selected == true){
 							dummy.push(employee[i])
 						}
 					}
 					var group = dummy.length
-
 					for (i = 0; i < group/2; i++){
 						var random = Math.floor(Math.random()*(dummy.length - 2))+1;
-
 						var pairS = [
 										dummy[0],
 										dummy[random]
@@ -227,7 +232,8 @@
 							
 							pairX.push(pairS);
 					};
-
+                    console.log("This week's pairs are: " );
+                    console.log(pairX);
 				}
 			//Draws all the squares
 			for (i = 0; i<employee.length; i++){
