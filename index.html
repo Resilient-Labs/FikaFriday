@@ -1,13 +1,22 @@
 <html>
 	<head>
 		<style>
-			html, html *{
+			html *{
 				font-family:"Helvetica", sans-serif;
 			}
             #splash{
                 height:500px;
                 padding: 10px 0;
+                position: relative;
+                transition:.7s all;
+                -webkit-transition:.7s all;
+                -moz-transition:.7s all;
+                left:0;
             }
+            #splash.moved{
+                left:-200%;
+            }
+            /* Splash2 styles go here!*/
 			#container{
 				width: 80%;
 				max-width:618px;
@@ -32,6 +41,7 @@
 				opacity:1;
 				transition:.3s all;
 				-webkit-transition:.3s all;
+                -moz-transition:.3s all;
 			}
 			.square:hover{
 				background-color: #E4E3E3;
@@ -152,8 +162,8 @@
 				var pairX = [
 
 				];
-			
-			var drawE_square = function(object) {
+            //Added this to determine whether or not to add things to splash or splash2
+			var drawE_square = function(object, container) {
 
 				var square = document.createElement("div");
 				square.className = ("square");
@@ -204,40 +214,60 @@
 					second = document.createTextNode(object.first + ' ' + object.last);
 					first.appendChild(second);
 				});
-
-				var element = document.getElementById("splash");
+                //Added this to determine whether or not to add things to splash or splash2
+				var element = document.getElementById(""+container);
 				element.appendChild(square);
 
 				};
 
 				//Pairing Functionality
 				var pairM = function (){
-					var dummy = []
-					for (i = 0; i < employee.length; i++){
-						if (employee[i].selected == true){
-							dummy.push(employee[i])
-						}
-					}
-					var group = dummy.length
-					for (i = 0; i < group/2; i++){
-						var random = Math.floor(Math.random()*(dummy.length - 2))+1;
-						var pairS = [
-										dummy[0],
-										dummy[random]
-									]
+                    var confirmation = true,
+                    dummy = [];
+                    for (i = 0; i < employee.length; i++){
+                        if (employee[i].selected == true){
+                            dummy.push(employee[i]);
+                        }
+                    }
+                    //Checks to see if there are an even number of Employees
+                    if(dummy.length%2>0){
+                        confirmation = confirm("There's an odd number of people selected, and someone will be alone. Is that cool?");        
+                    }              
+                    if(confirmation){
+                      
+                        var group = dummy.length
+                        for (i = 0; i < group/2; i++){
+                            var random = Math.floor(Math.random()*(dummy.length - 2))+1;
+                            var pairS = [
+                                            dummy[0],
+                                            dummy[random]
+                                        ]
 
 
-							dummy.splice(random,1)
-							dummy.splice(0,1)
-							
-							pairX.push(pairS);
-					};
-                    console.log("This week's pairs are: " );
-                    console.log(pairX);
+                                dummy.splice(random,1)
+                                dummy.splice(0,1)
+
+                                pairX.push(pairS);
+                        };
+                        console.log("This week's pairs are: " );
+                        console.log(pairX);
+                        //Create splash2
+                        //Loop through pairX, and draw each square (drawE_square)
+                        //Move splash1 over
+                        var splash1 = document.getElementById("splash");
+                        splash1.className += splash1.className ? ' moved' : 'moved';
+                        //Move splash2 over
+                    
+                    }
+                    else{
+                        console.log("pairing aborted due to uneven numbers");
+                    }
+
 				}
 			//Draws all the squares
 			for (i = 0; i<employee.length; i++){
-				drawE_square(employee[i]);
+                 //Added this to determine whether or not to add things to splash or splash2
+				drawE_square(employee[i], "splash");
 			}
 
 		</script>
