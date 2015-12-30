@@ -17,6 +17,9 @@
                 left:-200%;
             }
             /* Splash2 styles go here!*/
+            #splash2{
+            	
+            }
 			#container{
 				width: 80%;
 				max-width:618px;
@@ -68,6 +71,7 @@
                 <h2>Participants</h2>
                 <div class = 'square' id = 'add_user'> Add </div>
 			</div>
+			<div class = '' id = 'splash2'></div>
             <button onclick = "pairM()"> Confirm </button>
 		</div>
 
@@ -253,11 +257,15 @@
                         console.log(pairX);
                         //Create splash2
                         //Loop through pairX, and draw each square (drawE_square)
+                        for (i = 0; i < pairX.length; i++){
+                        	drawE_square(pairX[i], "splash2")
+                        }
                         //Move splash1 over
                         var splash1 = document.getElementById("splash");
                         splash1.className += splash1.className ? ' moved' : 'moved';
                         //Move splash2 over
-                    
+                    	var splash2 = document.getElementById("splash2");
+                        splash2.className += splash2.className ? ' moved' : 'moved';
                     }
                     else{
                         console.log("pairing aborted due to uneven numbers");
