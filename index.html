@@ -18,7 +18,7 @@
             }
             /* Splash2 styles go here!*/
             #splash2{
-            	
+            	right: 200%;
             }
 			#container{
 				width: 80%;
@@ -259,7 +259,11 @@
                         //Create splash2
                         //Loop through pairX, and draw each square (drawE_square)
                         for (i = 0; i < pairX.length; i++){
-                        	drawE_square(pairX[i], "splash2")
+                        	var grow = 0
+                        	grow = grow += 0
+                        	drawE_square(pairX[i][grow], "splash2")
+                        	
+                        	
                         }
                         //Move splash1 over
                         var splash1 = document.getElementById("splash");
