@@ -19,33 +19,48 @@ body::before{
 h1,h2{
     color:#FFF;
 }
-
-#splash {
-    height: 500px;
-    padding: 10px 0;
-    position: relative;
+#splash, #splash2{
+   padding: 60px 0;
     transition: .7s all;
-    -webkit-transition: .7s all;
-    -moz-transition: .7s all;
-    left: 0;
+    position: absolute;
     display:flex;
     flex-wrap: wrap;
     align-content: flex-start;
+    -webkit-transition: .7s all;
+    -moz-transition: .7s all;
+}
+#splash h2, #splash2 h2{
+    position: absolute;
+    top: 0;
+    width: 100%;
+}
+#splash {
+    left: 0;
+    width:100%;
 }
 
 #splash.moved {
     left: -200%;
 }
-/* Splash2 styles go here!*/
 
-#splash2 {}
 
-#container {
+#splash2{
+    width:300px;
+    margin: auto;
+    left:200%;
+}
+#splash2.moved{
+    left: 50%;
+    margin-left: -150px;
+}
+
+.container {
     width: 80%;
     max-width: 618px;
     margin: 0 auto;
     text-align: center;
     padding-top: 50px;
+    position: relative;
 }
 
 textarea {
@@ -84,6 +99,8 @@ textarea, .square{
 }
 
 button {
+    position: absolute;
+    bottom:0;
     text-align: center;
     margin: 0 auto;
     font-size: .8em;
@@ -95,6 +112,9 @@ button {
     border:none;
     border-radius: 5px;
     cursor:pointer;
+    width: 200px;
+    left:50%;
+    margin-left:-100px;
 }
 button:hover{
     background-color: #F79B7A;
