@@ -246,12 +246,12 @@
                 type: 'POST',
                 url: 'https://hooks.slack.com/services/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',
                 data: JSON.stringify({
-                    "text": "This week's Fika Friday Message is: "+ message +".\n Here are the pairs: \n"
+                    "text": slackMesage;
                 }),
                 async: false,
                 //     dataType: 'json',
                 success: function (data) {
-                    console.log("fucking nailed it");
+//                    console.log("nailed it");
                 },
                 error: function (t, e) {
                     console.log("You're so close!! " + e);
