@@ -11,6 +11,7 @@
  -->
     <div class="container" id="text-container">
         <h1>Fika Friday</h1>
+        <h2>For Friday, <span id="nextFriday"></span></h2>
         <h2>This week's prompt</h2>
         <textarea id="textarea"></textarea>
     </div>
@@ -18,29 +19,39 @@
 
         <div id="splash">
             <h2>Participants</h2>
-            <div class='square' id='add_user'> Add </div>
+            <div class='square' id='add_user'><p></p> Add Employee </div>
             <button onclick="pairM()"> Make Pairs </button>
         </div>
         <div class='' id='splash2'>
             <h2>Pairs</h2>
-            <button onclick="slack()"> Send </button>
+            <span id="pairs"></span>
+            <div id="buttons">
+                <button onclick="goBack()" id="back">Back</button>
+                <button onclick="slack()" id="send">Send</button>
+            </div>
         </div>
 
     </div>
 
     <script>
+        //What's the next Friday?
+        var today = new Date();
+        var resultDate = new Date(today.getTime());
+        var monthNames = ["January", "February", "March", "April", "May", "June","July", "August", "September", "October", "November", "December"];
+        //Use 5 for Friday
+        resultDate.setDate(today.getDate() + (7 + 5 - today.getDay()) % 7);
+        document.getElementById("nextFriday").innerHTML = monthNames[resultDate.getMonth()] + " " + resultDate.getDate();
         //Adding User
-
         var add_u = document.getElementById("add_user");
         add_u.addEventListener("click", function () {
-
             var new_user = {
                 first: prompt('Enter First Name'),
                 last: prompt('Enter Last Name'),
+                selected: true,
             }
 
-            employee.push(new_user)
-            drawE_square(new_user)
+            employee.push(new_user);
+            drawE_square(new_user, "splash");
 
         });
 
@@ -117,13 +128,11 @@
 	  			},
 				];
 
-        var pairX = [
-
-				];
+        var pairX = [];
         //Added this to determine whether or not to add things to splash or splash2
         var drawE_square = function (object, container) {
-
-            var square = document.createElement("div");
+            var element = document.getElementById("" + container),
+                square = document.createElement("div");
             square.className = ("square");
 
             square.addEventListener("click",
@@ -133,46 +142,59 @@
                         if (name === square.children[0].innerHTML) {
                             //check to see if the square is faded
                             if (square.style.opacity == 0.5) {
-                                square.style.opacity = 1
-                                employee[i].selected = true
-                                console.log("This Should Be Unfaded")
+                                square.style.opacity = 1;
+                                employee[i].selected = true;
+                                console.log("This Should Be Unfaded");
                             } else {
-                                employee[i].selected = false
-                                square.style.opacity = 0.5
-                                console.log("This square should be Fading")
-
+                                employee[i].selected = false;
+                                square.style.opacity = 0.5;
+                                console.log("This square should be Fading");
                             }
-
-                            console.log(employee[i])
+                            console.log(employee[i]);
                         }
-
                     }
-
                 }
             );
-
             var first = document.createElement('p');
             var second = document.createTextNode(object.first + ' ' + object.last);
             first.appendChild(second);
-
             square.appendChild(first);
             //Editing User
+            var edit_link = document.createElement('a');
+            var edit_text = document.createTextNode('Edit');
+            edit_link.appendChild(edit_text);
+            square.appendChild(edit_link);
+            var remove_link = document.createElement('a');
+            var remove_text = document.createTextNode('Remove');
+            remove_link.appendChild(remove_text);
+            square.appendChild(remove_link);
 
-            var third = document.createElement('a');
-            var fourth = document.createTextNode('Edit');
-            third.appendChild(fourth);
-
-            square.appendChild(third);
-
-            third.addEventListener("click", function (event) {
+            edit_link.addEventListener("click", function (event) {
                 object.first = prompt('Enter First Name');
                 object.last = prompt('Enter Last Name');
                 event.stopPropagation();
                 second = document.createTextNode(object.first + ' ' + object.last);
+                first.innerHTML = "";
                 first.appendChild(second);
+                
+            });
+            remove_link.addEventListener("click", function (event) {
+                console.log(second);
+                if (confirm("You sure you want to delete " + second.nodeValue + " forever?")) {
+                    for (i = 0; i < employee.length; i++) {
+                        var name = employee[i].first + " " + employee[i].last;
+                        if (name === square.children[0].innerHTML) {
+                            employee.splice(i, 1);
+                        }
+                    }
+                    element.removeChild(square);
+
+                } else {
+                    event.stopPropagation();
+                }
+
             });
             //Added this to determine whether or not to add things to splash or splash2
-            var element = document.getElementById("" + container);
             element.appendChild(square);
 
         };
@@ -191,7 +213,6 @@
                     confirmation = confirm("There's an odd number of people selected, and someone will be alone. Is that cool?");
                 }
                 if (confirmation) {
-
                     var group = dummy.length
                     for (i = 0; i < group / 2; i++) {
                         var random = Math.floor(Math.random() * (dummy.length - 2)) + 1;
@@ -199,24 +220,20 @@
                                             dummy[0],
                                             dummy[random]
                                         ]
-
-
                         dummy.splice(random, 1)
                         dummy.splice(0, 1)
-
                         pairX.push(pairS);
                     };
                     console.log("This week's pairs are: ");
                     console.log(pairX);
-                    //Create splash2
+                    //Empty the pairs span
+                    document.getElementById("pairs").innerHTML = "";
                     //Loop through pairX, and draw each square (drawE_square)
                     for (i = 0; i < pairX.length; i++) {
                         var grow = 0;
-                        drawE_square(pairX[i][grow], "splash2");
+                        drawE_square(pairX[i][grow], "pairs");
                         grow++;
-                        drawE_square(pairX[i][grow], "splash2");
-
-
+                        drawE_square(pairX[i][grow], "pairs");
                     }
                     //Move splash1 over
                     var splash1 = document.getElementById("splash");
@@ -234,24 +251,33 @@
             //Added this to determine whether or not to add things to splash or splash2
             drawE_square(employee[i], "splash");
         }
-        //Slack Integration
+        var goBack = function () {
+                var splash1 = document.getElementById("splash");
+                splash1.className = "";
+                //Move splash2 over
+                var splash2 = document.getElementById("splash2");
+                splash2.className = "";
+                //Empty the array of pairs so they don't get redrawn
+                pairX = [];
+            }
+            //Slack Integration
         var slack = function () {
-            
+
             var message = document.getElementById("textarea").value;
-            var slackMesage = "This week's Fika Friday Message is: "+ message +".\n Here are the pairs: \n";
-            for(i = 0; i<pairX.length; i++){
+            var slackMesage = "This week's Fika Friday Message is: " + message + ".\n Here are the pairs: \n";
+            for (i = 0; i < pairX.length; i++) {
                 slackMesage += "" + pairX[i][0].first + " and " + pairX[i][1].first + "\n";
             }
             $.ajax({
                 type: 'POST',
                 url: 'https://hooks.slack.com/services/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',
                 data: JSON.stringify({
-                    "text": slackMesage;
+                    "text": slackMesage
                 }),
                 async: false,
                 //     dataType: 'json',
                 success: function (data) {
-//                    console.log("nailed it");
+                    //                    console.log("nailed it");
                 },
                 error: function (t, e) {
                     console.log("You're so close!! " + e);

@@ -53,7 +53,11 @@ h1,h2{
     left: 50%;
     margin-left: -150px;
 }
-
+#pairs{
+    display:flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+}
 .container {
     width: 80%;
     max-width: 618px;
@@ -97,7 +101,10 @@ textarea, .square{
 .square a:hover{
     text-decoration: underline;
 }
-
+.square a{
+    margin:0 5px;
+    color:#696969;
+}
 button {
     position: absolute;
     bottom:0;
@@ -118,4 +125,24 @@ button {
 }
 button:hover{
     background-color: #F79B7A;
+}
+#buttons{
+    width:150px;
+    height:auto;
+    margin:20px auto;
+    
+}
+#buttons button{
+    width: 150px;
+    position: relative;
+    display: inline-block;
+    margin-left: 0px;
+    left: 0;
+}
+#back{
+    
+    background-color: #333;
+}
+#send{
+    top:20px;
 }
