@@ -49,9 +49,10 @@
                 last: prompt('Enter Last Name'),
                 selected: true,
             }
-
+            if (new_user.first != null && new_user.last != null){
             employee.push(new_user);
             drawE_square(new_user, "splash");
+            }
 
         });
 
@@ -63,6 +64,7 @@
                 // 'email': 'LB.Cavs@hotmailcom',
                 // 'slack': 'Cavs SF',
 	  			},
+                
             {
                 'first': 'Kevin',
                 'last': 'Durant',
@@ -170,13 +172,21 @@
             square.appendChild(remove_link);
 
             edit_link.addEventListener("click", function (event) {
+                event.stopPropagation();
+                var oldFirst = object.first; 
+                var oldLast = object.last;
                 object.first = prompt('Enter First Name');
                 object.last = prompt('Enter Last Name');
-                event.stopPropagation();
-                second = document.createTextNode(object.first + ' ' + object.last);
-                first.innerHTML = "";
-                first.appendChild(second);
-                
+                if (!!object.first && !!object.last){
+                    second = document.createTextNode(object.first + ' ' + object.last);
+                    first.innerHTML = "";
+                    first.appendChild(second);
+                }
+                else {
+                    second = document.createTextNode(oldFirst + ' ' + oldLast);
+                    first.innerHTML = "";
+                    first.appendChild(second);
+                }
             });
             remove_link.addEventListener("click", function (event) {
                 console.log(second);
