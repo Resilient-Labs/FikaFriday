@@ -1,3 +1,6 @@
+<?php
+    include 'dbStuff.php';
+?>
 <html>
 
 <head>
@@ -6,9 +9,6 @@
 </head>
 
 <body>
-    <!-- 
-		HERE'S SOME NEW STUFF!!
- -->
     <div class="container" id="text-container">
         <h1>Fika Friday</h1>
         <h2>For Friday, <span id="nextFriday"></span></h2>
@@ -49,6 +49,17 @@
                 last: prompt('Enter Last Name'),
                 selected: true,
             }
+            //Pass this new user to the database
+            $.ajax({ url: 'dbStuff.php',
+                 data: {action: 'addUser', newFirst:new_user.first, newLast:new_user.last},
+                 type: 'post',
+                 success: function(output) {
+                              console.log("sucessfully added");
+                          }
+            });
+            <?php
+//                addEntry(new_user.first, new_user.last);
+            ?>
 
             employee.push(new_user);
             drawE_square(new_user, "splash");
@@ -56,85 +67,31 @@
         });
 
         var employee = [
-            {
-                'first': 'Lee-Bron',
-                'last': 'James',
-                'selected': true,
-                // 'email': 'LB.Cavs@hotmailcom',
-                // 'slack': 'Cavs SF',
-	  			},
-            {
-                'first': 'Kevin',
-                'last': 'Durant',
-                'selected': true,
-                // 'email': 'KD.Thunder@gmailcom',
-                // 'slack': 'OKC SF',
-			 	},
-            {
-                'first': 'Ka-Why',
-                'last': 'Lard',
-                'selected': true,
-                // 'email': 'KL.Spurs@gmailcom',
-                // 'slack': 'Spurs SF',
-			 	},
-            {
-                'first': 'Melo',
-                'last': 'Antt',
-                'selected': true,
-                // 'email': 'Melo.Knicks@gmailcom',
-                // 'slack': 'Knicks SF',
-			 	},
-            {
-                'first': 'Paul',
-                'last': 'George',
-                'selected': true,
-                // 'email': 'PG.13@gmailcom',
-                // 'slack': 'PG13 SF',
-			 	},
-            {
-                'first': 'Gorden',
-                'last': 'Hayward',
-                'selected': true,
-                // 'email': '',
-                // 'slack': '',
-	  			},
-            {
-                'first': 'Ruby',
-                'last': 'Lay',
-                'selected': true,
-                // 'email': '',
-                // 'slack': '',
-	  			},
-            {
-                'first': 'Tyreck',
-                'last': 'Evans',
-                'selected': true,
-                // 'email': '',
-                // 'slack': '',
-	  			},
-            {
-                'first': 'Michael',
-                'last': 'Jordan',
-                // 'email': '',
-                'selected': true,
-                // 'slack': '',
-	  			},
-            {
-                'first': 'Jerry',
-                'last': 'West',
-                'selected': true,
-                // 'email': '',
-                // 'slack': '',
-	  			},
-				];
-
+            <?php
+                //Grab all of the entries in the database
+                while($row = mysqli_fetch_assoc($results)){
+            ?>
+            {   
+                //Creates new "employee" for each enry
+                "first":<?php echo json_encode($row["first"]); ?>,
+                "last":<?php echo json_encode($row["last"]); ?>,
+                "slack":"@" + <?php echo json_encode($row["slack"]); ?>,
+                "email":<?php echo json_encode($row["email"]); ?>,
+                "selected":true
+            },
+            <?php	
+                // end the loop and free up memory
+                }
+                mysqli_free_result($results);
+            ?>
+        ];
+        
         var pairX = [];
-        //Added this to determine whether or not to add things to splash or splash2
+        //Added this to determine whether or not to add elements to splash or splash2
         var drawE_square = function (object, container) {
             var element = document.getElementById("" + container),
                 square = document.createElement("div");
             square.className = ("square");
-
             square.addEventListener("click",
                 function fade(drawE_square) {
                     for (i = 0; i < employee.length; i++) {
@@ -159,6 +116,7 @@
             var second = document.createTextNode(object.first + ' ' + object.last);
             first.appendChild(second);
             square.appendChild(first);
+            
             //Editing User
             var edit_link = document.createElement('a');
             var edit_text = document.createTextNode('Edit');
@@ -170,12 +128,21 @@
             square.appendChild(remove_link);
 
             edit_link.addEventListener("click", function (event) {
+                var oldName = object.last;
                 object.first = prompt('Enter First Name');
                 object.last = prompt('Enter Last Name');
                 event.stopPropagation();
                 second = document.createTextNode(object.first + ' ' + object.last);
                 first.innerHTML = "";
                 first.appendChild(second);
+                
+                $.ajax({ url: 'dbStuff.php',
+                 data: {action: 'editUser', newFirst:object.first, newLast:object.last, oldName:oldName},
+                 type: 'post',
+                 success: function(output) {
+                              console.log("sucessfully edited");
+                          }
+                });
                 
             });
             remove_link.addEventListener("click", function (event) {
@@ -184,7 +151,14 @@
                     for (i = 0; i < employee.length; i++) {
                         var name = employee[i].first + " " + employee[i].last;
                         if (name === square.children[0].innerHTML) {
-                            employee.splice(i, 1);
+                            $.ajax({ url: 'dbStuff.php',
+                                 data: {action: 'removeUser', formerEmployee: employee[i].last},
+                                 type: 'post',
+                                 success: function(output) {
+                                            console.log("sucessfully removed");
+                                            employee.splice(i, 1);
+                                          }
+                                }); 
                         }
                     }
                     element.removeChild(square);
@@ -244,7 +218,6 @@
                 } else {
                     console.log("pairing aborted due to uneven numbers");
                 }
-
             }
             //Draws all the squares
         for (i = 0; i < employee.length; i++) {
@@ -277,7 +250,7 @@
                 async: false,
                 //     dataType: 'json',
                 success: function (data) {
-                    //                    console.log("nailed it");
+                    //console.log("nailed it");
                 },
                 error: function (t, e) {
                     console.log("You're so close!! " + e);
@@ -291,3 +264,7 @@
 </body>
 
 </html>
+<?php
+    //CLOSE DATABASE CONNECTION
+	mysqli_close($connection);
+?>
