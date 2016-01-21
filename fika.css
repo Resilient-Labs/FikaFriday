@@ -16,6 +16,9 @@ body::before{
     width:100%;
     background-color: #00609C;
 }
+h1{
+    font-size: 3em;
+}
 h1,h2{
     color:#FFF;
 }
@@ -25,7 +28,8 @@ h1,h2{
     position: absolute;
     display:flex;
     flex-wrap: wrap;
-    align-content: flex-start;
+    justify-content: flex-start;
+    align-content:flex-start
     -webkit-transition: .7s all;
     -moz-transition: .7s all;
 }
@@ -37,6 +41,7 @@ h1,h2{
 #splash {
     left: 0;
     width:100%;
+    padding-bottom: 50px;
 }
 
 #splash.moved {
@@ -63,7 +68,7 @@ h1,h2{
     max-width: 618px;
     margin: 0 auto;
     text-align: center;
-    padding-top: 50px;
+    padding-top: 1px;
     position: relative;
 }
 
@@ -76,7 +81,6 @@ textarea {
     border:3px solid #00609C;
 }
 textarea, .square{
-    
     border-radius: 5px;
 }
 
