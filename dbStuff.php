@@ -1,11 +1,6 @@
 <?php
-//  ESTABLISH DATABASE CONNECTION
-	$dbhost = "localhost";
-	$dbuser = "sid";
-	$dbpass = "Scooter69";
-	$dbname = "team";
-	$connection = mysqli_connect($dbhost, $dbuser, $dbpass, $dbname);
-    
+    include'config.php';
+
 	$insertQuery = "";
     $editQuery = "";
     $removeQuery = "";
@@ -31,7 +26,11 @@
         		$insertQuery .= "'{$newFirst}', '{$newLast}', 'email', '@slack' ";
         		$insertQuery .= ")";
                 $insertResult = mysqli_query($connection, $insertQuery);
-                
+
+                 if (!$insertResult){
+                    echo("query failed");
+                 }
+
                 break;
 
             case 'editUser':
@@ -103,6 +102,6 @@
 	$query = "SELECT * FROM team";
 	$results = mysqli_query($connection, $query);
 	if(!$results){
-		die("Database query messed up");
+	   die("Database query messed up");
 	}
 ?>

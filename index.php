@@ -249,13 +249,14 @@
         var slack = function () {
 
             var message = document.getElementById("textarea").value;
+            var slackURL = <?php echo json_encode($slackURL) ?>;
             var slackMesage = "This week's Fika Friday Message is: " + message + ".\n Here are the pairs: \n";
             for (i = 0; i < pairX.length; i++) {
                 slackMesage += "" + pairX[i][0].first + " and " + pairX[i][1].first + "\n";
             }
             $.ajax({
                 type: 'POST',
-                url: 'https://hooks.slack.com/services/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',
+                url: slackURL ,
                 data: JSON.stringify({
                     "text": slackMesage
                 }),
