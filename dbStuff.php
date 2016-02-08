@@ -21,9 +21,9 @@
                 $newLast = $_POST['newLast'];
                 
                 $insertQuery = "INSERT INTO {$dbname} (";
-                $insertQuery .= " first, last, email, slack";
+                $insertQuery .= " first, last";
                 $insertQuery .= ") Values (";
-        		$insertQuery .= "'{$newFirst}', '{$newLast}', 'email', '@slack' ";
+        		$insertQuery .= "'{$newFirst}', '{$newLast}'";
         		$insertQuery .= ")";
                 $insertResult = mysqli_query($connection, $insertQuery);
 

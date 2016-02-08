@@ -13,17 +13,22 @@
         <h1>Fika Friday</h1>
         <h2>For Friday, <span id="nextFriday"></span></h2>
         <h2>This week's prompt</h2>
-        <textarea id="textarea"></textarea>
+        <textarea id="textarea" placeholder="What should we talk about this week?"></textarea>
     </div>
-    <div class="container" id="pairs-container">
 
+     <div class="container" id="history-container">
+        <h2>Last Week's Pairs</h2>
+        <textarea id="history-area" placeholder="Paste last week's pairs here"></textarea>
+    </div>
+
+    <div class="container" id="pairs-container">
         <div id="splash">
-            <h2>Participants</h2>
+            <h2>This Week's Participants</h2>
             <div class='square' id='add_user'><p></p> Add Employee </div>
             <button onclick="pairM()"> Make Pairs </button>
         </div>
         <div class='' id='splash2'>
-            <h2>Pairs</h2>
+            <h2>Confirm Pairs</h2>
             <span id="pairs"></span>
             <div id="buttons">
                 <button onclick="goBack()" id="back">Back</button>
@@ -34,6 +39,7 @@
     </div>
 
     <script>
+        var dummy = [], oddNumber = false;
         //What's the next Friday?
         var today = new Date();
         var resultDate = new Date(today.getTime());
@@ -41,6 +47,11 @@
         //Use 5 for Friday
         resultDate.setDate(today.getDate() + (7 + 5 - today.getDay()) % 7);
         document.getElementById("nextFriday").innerHTML = monthNames[resultDate.getMonth()] + " " + resultDate.getDate();
+        var getFullName = function(employee){
+            return "" + employee.first + " " + employee.last;
+        }
+
+
         //Adding User
         var add_u = document.getElementById("add_user");
         add_u.addEventListener("click", function () {
@@ -78,8 +89,6 @@
                 //Creates new "employee" for each enry
                 "first":<?php echo json_encode($row["first"]); ?>,
                 "last":<?php echo json_encode($row["last"]); ?>,
-                "slack":"@" + <?php echo json_encode($row["slack"]); ?>,
-                "email":<?php echo json_encode($row["email"]); ?>,
                 "selected":true
             },
             <?php	
@@ -120,16 +129,13 @@
             first.appendChild(second);
             square.appendChild(first);
             
-            //Editing User
+         
             var edit_link = document.createElement('a');
             var edit_text = document.createTextNode('Edit');
             edit_link.appendChild(edit_text);
             square.appendChild(edit_link);
-            var remove_link = document.createElement('a');
-            var remove_text = document.createTextNode('Remove');
-            remove_link.appendChild(remove_text);
-            square.appendChild(remove_link);
 
+            //EDITING USER
             edit_link.addEventListener("click", function (event) {
 
                 event.stopPropagation();
@@ -157,6 +163,12 @@
                 }
                 
             });
+            //REMOVING USER
+            var remove_link = document.createElement('a');
+            var remove_text = document.createTextNode('Remove');
+            remove_link.appendChild(remove_text);
+            square.appendChild(remove_link);
+
             remove_link.addEventListener("click", function (event) {
                 console.log(second);
                 if (confirm("You sure you want to delete " + second.nodeValue + " forever?")) {
@@ -184,31 +196,63 @@
             element.appendChild(square);
 
         };
-
-        //Pairing Functionality
-        var pairM = function () {
-                var confirmation = true,
-                    dummy = [];
+        //PAIRING FUNCTIONALITY
+        function pairM() {
+                oddNumber = false;
+                dummy = [];
+                //MAKING SURE NO PAIRS HAVE BEEN MADE
+                pairX = [];
+                 
                 for (i = 0; i < employee.length; i++) {
                     if (employee[i].selected == true) {
                         dummy.push(employee[i]);
                     }
                 }
+                var group = dummy.length;
                 //Checks to see if there are an even number of Employees
                 if (dummy.length % 2 > 0) {
-                    confirmation = confirm("There's an odd number of people selected, and someone will be alone. Is that cool?");
-                }
-                if (confirmation) {
-                    var group = dummy.length
-                    for (i = 0; i < group / 2; i++) {
-                        var random = Math.floor(Math.random() * (dummy.length - 2)) + 1;
-                        var pairS = [
-                                            dummy[0],
-                                            dummy[random]
-                                        ]
-                        dummy.splice(random, 1)
-                        dummy.splice(0, 1)
-                        pairX.push(pairS);
+                    oddNumber = true;
+                    group --;
+                }   
+
+                    for (i = 0; i < group / 2;) {
+                        console.log("i is " + i);
+                        var random = Math.round(Math.random() * (dummy.length - 2)) + 1,
+                            pairHistory = document.getElementById("history-area").value.split(/\n| /),
+                            numHistoryPairs = pairHistory.length/3,
+                            freshPair = true;
+                            console.log("random number is  " + random);
+                            console.log(dummy.length);
+                        //MAKE SURE PAIRS FROM LAST WEEK DON'T GET REPEATED
+                        //ASSUMING HISTORY.LENGTH % 3 = 0
+                        for(j = 0; j < numHistoryPairs; j++){
+                            //LOOP THROUGH THE HISTORY ARRAY
+                          
+                            console.log(dummy[0].first + " and " + dummy[random].first + " compared to " + pairHistory[0] + " and " + pairHistory[2] + " is: " + (dummy[0].first == pairHistory[0] && dummy[random].first == pairHistory[2]));
+                            if((dummy[0].first == pairHistory[0] && dummy[random].first == pairHistory[2]) || (dummy[0].first == pairHistory[2] && dummy[random].first == pairHistory[0])){
+                                console.log("stale pair alert");
+                                freshPair = false;
+                            }
+                            // console.log("j is " + j)
+                            pairHistory.splice(0,3);
+                        }
+                        if(freshPair == true){
+                            var pairS = [ dummy[0], dummy[random] ];
+                            dummy.splice(random, 1);
+                            dummy.splice(0, 1);
+                            pairX.push(pairS);;
+                            i++;
+                        }else{
+                            //CHECK TO SEE IF THIS IS THE LAST PAIR
+                            if(dummy.length === 2 ){
+                                console.log("this is the last pair, so lets try this again!");
+                                pairM();
+                            }else{
+                                //STALE PAIR - GET NEW RANDOM NUMBER
+                                console.log("getting a new random number cause there was a stale pair");
+                            }
+                            
+                        }
                     };
                     console.log("This week's pairs are: ");
                     console.log(pairX);
@@ -221,19 +265,19 @@
                         grow++;
                         drawE_square(pairX[i][grow], "pairs");
                     }
+                    if(oddNumber){
+                        drawE_square(dummy[0], "pairs");
+                    }
                     //Move splash1 over
                     var splash1 = document.getElementById("splash");
                     splash1.className += splash1.className ? ' moved' : 'moved';
                     //Move splash2 over
                     var splash2 = document.getElementById("splash2");
                     splash2.className += splash2.className ? ' moved' : 'moved';
-                } else {
-                    console.log("pairing aborted due to uneven numbers");
-                }
+
             }
-            //Draws all the squares
+        //Draws all the squares
         for (i = 0; i < employee.length; i++) {
-            //Added this to determine whether or not to add things to splash or splash2
             drawE_square(employee[i], "splash");
         }
         var goBack = function () {
@@ -250,9 +294,12 @@
 
             var message = document.getElementById("textarea").value;
             var slackURL = <?php echo json_encode($slackURL) ?>;
-            var slackMesage = "This week's Fika Friday Message is: " + message + ".\n Here are the pairs: \n";
+            var slackMesage = "This week's Fika Friday Message is: " + message + ".\n Here are the pairs: ";
             for (i = 0; i < pairX.length; i++) {
-                slackMesage += "" + pairX[i][0].first + " and " + pairX[i][1].first + "\n";
+                slackMesage += "\n" + pairX[i][0].first + " and " + pairX[i][1].first;
+            }
+            if (oddNumber) {
+                slackMesage += " and " + dummy[0].first;
             }
             $.ajax({
                 type: 'POST',
@@ -263,7 +310,7 @@
                 async: false,
                 //     dataType: 'json',
                 success: function (data) {
-                    //console.log("nailed it");
+                    alert("This week's pairs have been sent out!");
                 },
                 error: function (t, e) {
                     console.log("You're so close!! " + e);
