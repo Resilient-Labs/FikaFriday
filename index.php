@@ -216,24 +216,18 @@
                 }   
 
                     for (i = 0; i < group / 2;) {
-                        console.log("i is " + i);
                         var random = Math.round(Math.random() * (dummy.length - 2)) + 1,
                             pairHistory = document.getElementById("history-area").value.split(/\n| /),
                             numHistoryPairs = pairHistory.length/3,
                             freshPair = true;
-                            console.log("random number is  " + random);
-                            console.log(dummy.length);
                         //MAKE SURE PAIRS FROM LAST WEEK DON'T GET REPEATED
-                        //ASSUMING HISTORY.LENGTH % 3 = 0
                         for(j = 0; j < numHistoryPairs; j++){
                             //LOOP THROUGH THE HISTORY ARRAY
-                          
-                            console.log(dummy[0].first + " and " + dummy[random].first + " compared to " + pairHistory[0] + " and " + pairHistory[2] + " is: " + (dummy[0].first == pairHistory[0] && dummy[random].first == pairHistory[2]));
+                            
                             if((dummy[0].first == pairHistory[0] && dummy[random].first == pairHistory[2]) || (dummy[0].first == pairHistory[2] && dummy[random].first == pairHistory[0])){
-                                console.log("stale pair alert");
+                    
                                 freshPair = false;
                             }
-                            // console.log("j is " + j)
                             pairHistory.splice(0,3);
                         }
                         if(freshPair == true){
@@ -245,17 +239,13 @@
                         }else{
                             //CHECK TO SEE IF THIS IS THE LAST PAIR
                             if(dummy.length === 2 ){
-                                console.log("this is the last pair, so lets try this again!");
                                 pairM();
                             }else{
                                 //STALE PAIR - GET NEW RANDOM NUMBER
-                                console.log("getting a new random number cause there was a stale pair");
                             }
                             
                         }
                     };
-                    console.log("This week's pairs are: ");
-                    console.log(pairX);
                     //Empty the pairs span
                     document.getElementById("pairs").innerHTML = "";
                     //Loop through pairX, and draw each square (drawE_square)
@@ -313,7 +303,7 @@
                     alert("This week's pairs have been sent out!");
                 },
                 error: function (t, e) {
-                    console.log("You're so close!! " + e);
+                    console.log("Something broke " + e);
                 },
                 processData: false
 
